@@ -8,6 +8,16 @@ import org.springframework.web.bind.annotation.*;
 // 사용자가 요청 -> 응답(Data)
 @RestController
 public class HttpController {
+    private static final String TAG = "HttpController";
+
+    @GetMapping("/http/lombok")
+    public String lombokTest(){
+        Member m = Member.builder().username("ssar").password("1234").email("ssar@nate.com").build();
+        System.out.println(TAG + "getter : " + m.getUsername());
+        m.setUsername("test");
+        System.out.println(TAG + "setter : " + m.getUsername());
+        return "lombok test완료";
+    }
     //http://localhost:8080/http/get (select)
     @GetMapping("/http/get")
     public String getTest(Member m){
