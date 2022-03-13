@@ -38,4 +38,5 @@ public class HttpController {
     public String DeleteTest(){
         return "Delete 요청";
     }
+
 }
