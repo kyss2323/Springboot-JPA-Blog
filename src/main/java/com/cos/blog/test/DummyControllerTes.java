@@ -4,6 +4,7 @@ import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -22,28 +23,42 @@ public class DummyControllerTes {
     @Autowired // DummyControllerTes가 메모리에 뜰때 userRepository도 같이 메모리가 뜬다
     private UserRepository userRepository;
 
+    @DeleteMapping("/dummy/user/{id}")
+    public String deleteUser(@PathVariable int id){
+        try {
+            userRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e){
+            return "삭제에 실패하였습니다. 해당 아이디는 DB에 없습니다.";
+        }
+
+        return "삭제 되었습니다." + id;
+    }
+
     // save 함수는 id를 전달하지 않으면 insert를 해주고
     // save 함수는 id를 전달하면 해당 id에 대한 데이터가 있으면 update를 해주고
     // save 함수는 id를 전달하면 해당 id에 대한 데이터가 없으면 insert를 해준다.
     // email, password
-    @Transactional
+    @Transactional  // 함수 종료시 자동 커밋 됨.
     @PutMapping("/dummy/user/{id}")
     public User updateUser(@PathVariable int id, @RequestBody User requestUser){    // json 데이터를 요청했는데 스프링이 자바 오브젝트(MessageConverter의 Jackson 라이브러리)로 변환해서 받았음
         System.out.println("id : " + id);
         System.out.println("password : " + requestUser.getPassword());
         System.out.println("email : " + requestUser.getEmail());
 
+        // 영속화가 이루어지는 곳 id값을가지는 user가 영속화 컨텍스트에 담김
         User user = userRepository.findById(id).orElseThrow(()->{
             return new IllegalArgumentException("수정에 실패하였습니다.");
         });
 
+        // controller에 있는 user 객체와 영속성 컨텍스트에 있는 user 객체가 서로 다름 -> @Transactional 어노테이션에 따라 함수 종료 시, 해당 영속화 된 user 값 변경 감지 후 DB에 commit 날림
+        // 이걸 더티 체킹 이라 한다!!
         user.setEmail(requestUser.getEmail());
         user.setPassword(requestUser.getPassword());
 
 //        userRepository.save(user);
 
         // 더티 체킹
-        return null;
+        return user;
     }
 
     // http://localhost:8000/blog/dummy/user
