@@ -15,14 +15,14 @@ let index = {
         // ajax 호출시 default가 비동기 호출
         $.ajax({
             type: "POST",
-            url: "/blog/api/user",
+            url: "/auth/joinProc",
             data: JSON.stringify(data), // http body 데이터
             contentType: "application/json; charset=utf-8",
             dataType:"json"
         }).done(function (resp){
             alert("회원가입이 완료되었습니다.");
-            console.log(resp);
-            // location.href="/blog";
+            // console.log(resp.status);
+            location.href="/";
         }).fail(function (error){
             alert(JSON.stringify(error));
         }); // ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert 요청
