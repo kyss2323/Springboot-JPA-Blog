@@ -10,7 +10,8 @@ import java.util.Optional;
 // 자동으로 bean 등록이 됨
 //@Repository 생략 가능
 public interface UserRepository extends JpaRepository<User, Integer> {
-
+    // SELECT * FROM USER WHERE username = ?1;
+    Optional<User> findByUsername(String username);
 }
 //JPA Naming 쿼리
 // SELECT * FROM user WHERE username = ?1 AND password = ?2;
