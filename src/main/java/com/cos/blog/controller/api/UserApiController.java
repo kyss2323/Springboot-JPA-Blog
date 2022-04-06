@@ -25,6 +25,4 @@ public class UserApiController {
         userService.회원가입(user);
         return new ResponseDto<Integer>(HttpStatus.OK.value(), 1);
     }
-
-
 }

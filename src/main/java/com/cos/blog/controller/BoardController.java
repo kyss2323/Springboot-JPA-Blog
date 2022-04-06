@@ -9,9 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class BoardController {
 
     @GetMapping({"","/"})
-    public String index(@AuthenticationPrincipal PrincipalDetail principal){
-        System.out.println(principal.getUsername());
+    public String index(){
         return "index";
+    }
+
+    @GetMapping("/board/saveForm")
+    public String saveForm(){
+        return "board/saveForm";
     }
 
 }
