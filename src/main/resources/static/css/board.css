@@ -1,0 +1,19 @@
+span{
+    vertical-align: baseline;
+    font-size: 13px;
+}
+#board-createDate{
+    font-size: 13px;
+}
+#board-userid{
+    padding: 0 2px;
+}
+#board-createDate::before{
+    content: "";
+    display: inline-block;
+    width: 1px;
+    height: 12px;
+    background: #ccc;
+    margin: 0 10px 0 6px;
+    vertical-align: -2px;
+}
