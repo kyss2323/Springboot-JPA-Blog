@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(value=IllegalAccessException.class)
+    public String handleAccessException(IllegalAccessException e){
+        return e.getMessage();
+    }
+
     @ExceptionHandler(value = IllegalArgumentException.class)
     public String handleArgumentException(IllegalArgumentException e){
         return "<h1>" + e.getMessage() + "</h1>";
